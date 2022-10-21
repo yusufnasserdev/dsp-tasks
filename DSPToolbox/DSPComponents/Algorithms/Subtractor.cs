@@ -19,7 +19,22 @@ namespace DSPAlgorithms.Algorithms
         /// </summary>
         public override void Run()
         {
-            throw new NotImplementedException();
+            MultiplySignalByConstant m = new MultiplySignalByConstant();
+
+            m.InputSignal = InputSignal2;
+            m.InputConstant = -1;
+            m.Run();
+
+            InputSignal2 = m.OutputMultipliedSignal;
+
+            Adder a = new Adder();
+            a.InputSignals = new List<Signal>();
+            a.InputSignals.Add(InputSignal1);
+            a.InputSignals.Add(InputSignal2);
+
+            a.Run();
+
+            OutputSignal = new Signal(a.OutputSignal.Samples, false);
         }
     }
 }
