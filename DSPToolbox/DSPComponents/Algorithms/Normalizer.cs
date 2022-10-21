@@ -14,9 +14,23 @@ namespace DSPAlgorithms.Algorithms
         public float InputMaxRange { get; set; }
         public Signal OutputNormalizedSignal { get; set; }
 
+        private float getNormalizedSample(float sample)
+        {
+            return (((InputMaxRange - InputMinRange) * (sample - InputSignal.Samples.Min()))
+                / (InputSignal.Samples.Max() - InputSignal.Samples.Min()))
+                + InputMinRange;
+        }
+
         public override void Run()
         {
-            throw new NotImplementedException();
+            List<float> new_samples = new List<float>();
+
+            int samples_count = InputSignal.Samples.Count;
+
+            for (int i = 0; i < samples_count; i++)
+                new_samples.Add(getNormalizedSample(InputSignal.Samples[i]));
+
+            OutputNormalizedSignal = new Signal(new_samples, true);
         }
     }
 }
