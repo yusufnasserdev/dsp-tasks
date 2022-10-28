@@ -18,8 +18,30 @@ namespace DSPAlgorithms.Algorithms
         public List<float> samples { get; set; }
         public override void Run()
         {
-            
-            throw new NotImplementedException();
+            samples = new List<float>();
+            float digitalFrequency = AnalogFrequency / SamplingFrequency;
+
+            if (type.Equals("sin")) {
+                for (int i = 0; i < SamplingFrequency; i++)
+                {
+                    double result = A * Math.Sin(2 * Math.PI * digitalFrequency * i + PhaseShift);
+                    samples.Add((float) result);
+                }
+            }
+            else if (type.Equals("cos"))
+            {
+                for (int i = 0; i < SamplingFrequency; i++)
+                {
+                    double result = A * Math.Cos(2 * Math.PI * digitalFrequency * i + PhaseShift);
+                    samples.Add((float) result);
+
+                }
+            }
+            else
+            {
+                throw new Exception("Unknown Type");
+            }
+
         }
     }
 }
