@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AccumulationSum.cs" />
     <Compile Include="Algorithms\Algorithm.cs" />
     <Compile Include="Algorithms\Adder.cs" />
     <Compile Include="Algorithms\DC_Component.cs" />
+    <Compile Include="Algorithms\Derivatives.cs" />
     <Compile Include="Algorithms\DirectConvolution.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +77,7 @@
     </Compile>
     <Compile Include="Algorithms\QuantizationAndEncoding.cs" />
     <Compile Include="Algorithms\Shifter.cs" />
+    <Compile Include="Algorithms\ShiftingAndFolding.cs" />
     <Compile Include="Algorithms\SinCos.cs" />
     <Compile Include="Algorithms\Subtractor.cs">
       <SubType>Code</SubType>
