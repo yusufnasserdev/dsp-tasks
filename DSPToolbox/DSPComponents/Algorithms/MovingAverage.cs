@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,22 @@ namespace DSPAlgorithms.Algorithms
  
         public override void Run()
         {
-            throw new NotImplementedException();
+            List<float> outputSamples = new List<float>();
+
+            for (int i = 0; i < InputSignal.Samples.Count; i++)
+            {
+                if (i + InputWindowSize > InputSignal.Samples.Count)
+                    break;
+
+                float windowSum = 0;
+
+                for (int j = 0; j < InputWindowSize; j++)
+                        windowSum += InputSignal.Samples[i + j];
+
+                outputSamples.Add(windowSum / InputWindowSize);
+            }
+
+            OutputAverageSignal = new Signal(outputSamples, false);
         }
     }
 }
