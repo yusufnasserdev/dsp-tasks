@@ -77,7 +77,6 @@
     </Compile>
     <Compile Include="Algorithms\QuantizationAndEncoding.cs" />
     <Compile Include="Algorithms\Shifter.cs" />
-    <Compile Include="Algorithms\ShiftingAndFolding.cs" />
     <Compile Include="Algorithms\SinCos.cs" />
     <Compile Include="Algorithms\Subtractor.cs">
       <SubType>Code</SubType>
