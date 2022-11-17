@@ -65,7 +65,8 @@ namespace DSPComponentsUnitTest
         public void FoldingAndShiftRightTestMethod4()
         {
             s.ShiftingValue = 500;
-            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
+            //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
+            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
             s.InputSignal = f.OutputFoldedSignal;
@@ -77,7 +78,8 @@ namespace DSPComponentsUnitTest
         public void FoldingAndShiftLeftTestMethod5()
         {
             s.ShiftingValue = -500;
-            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
+            // expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
+            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
             s.InputSignal = f.OutputFoldedSignal;
@@ -89,8 +91,8 @@ namespace DSPComponentsUnitTest
         public void ShiftRightThenFoldingTestMethod6()
         {
             s.ShiftingValue = -500;
-            //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
-            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
+            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
+            //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
             s.InputSignal = inputSignal;
             s.Run();
             f.InputSignal = s.OutputShiftedSignal;
@@ -103,8 +105,8 @@ namespace DSPComponentsUnitTest
         public void ShiftLeftThenFoldingTestMethod7()
         {
             s.ShiftingValue = 500;
-            //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
-            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
+            expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
+            //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
             s.InputSignal = inputSignal;
             s.Run();
             f.InputSignal = s.OutputShiftedSignal;

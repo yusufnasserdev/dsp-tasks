@@ -13,13 +13,14 @@ namespace DSPAlgorithms.Algorithms
         public int ShiftingValue { get; set; }
         public Signal OutputShiftedSignal { get; set; }
 
-        public override void Run()
+        public override void Run(/*bool folded = false*/)
         {
+            
+            // if (folded) ShiftingValue *= -1;
+
             List<int> outputSamplesIndices = new List<int>();
             for (int i = 0; i < InputSignal.SamplesIndices.Count; i++)
-            {
                 outputSamplesIndices.Add(InputSignal.SamplesIndices[i] - ShiftingValue);
-            }
 
             OutputShiftedSignal = new Signal(InputSignal.Samples, outputSamplesIndices, false);
         }
