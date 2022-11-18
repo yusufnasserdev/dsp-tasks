@@ -66,6 +66,16 @@ namespace DSPComponentsUnitTest
         {
             s.ShiftingValue = 500;
             //expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
+
+            /**
+             * NOTE: 
+             * 
+             * ExpectedOutputSignal CAN'T be Output_Fold_Plus500 because the shifiting method has no way of knowing
+             * that the folding had already happened, because of that we need to adjust the shifting value before it
+             * reaches the shifting method.
+             *
+             */
+
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
@@ -79,6 +89,16 @@ namespace DSPComponentsUnitTest
         {
             s.ShiftingValue = -500;
             // expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
+
+            /**
+             * NOTE: 
+             * 
+             * ExpectedOutputSignal CAN'T be Output_Fold_Minus500 because the shifiting method has no way of knowing
+             * that the folding had already happened, because of that we need to adjust the shifting value before it
+             * reaches the shifting method.
+             *
+             */
+
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
@@ -98,6 +118,25 @@ namespace DSPComponentsUnitTest
             f.InputSignal = s.OutputShiftedSignal;
             f.Run();
             actualOutputSignal = f.OutputFoldedSignal;
+
+            /*
+             * 
+             * INPUT:
+             *        -500 -499 .. ..  499   500
+             *          1    2  .. ..  1000  1001
+             *          
+             * SHIFT (X - 500):
+             *  
+             *          0    1   .. ..  999  1000  
+             *          1    2   .. ..  1000 1001
+             *          
+             * FOLD:
+             * 
+             *          0     1     .. ..  999  1000  
+             *         1001  1000   .. ..   2    1
+             *          
+             * The output signal corresponds to Output_Fold_Plus500 NOT Output_Fold_Minus500
+             */
 
         }
 
