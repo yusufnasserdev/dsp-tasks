@@ -23,12 +23,10 @@ namespace DSPAlgorithms.Algorithms
             {
                 firstDerivtaveSamples.Add(InputSignal.Samples[i] - InputSignal.Samples[i - 1]);
 
-                try {
-                    secondDerivtaveSamples.Add(InputSignal.Samples[i + 1] - (2 * InputSignal.Samples[i]) + InputSignal.Samples[i - 1]);
-                } catch {
-                    // Padding the list.
-                    secondDerivtaveSamples.Add(0);
-                }
+                if (i + 1 == InputSignal.Samples.Count) continue;
+                
+                secondDerivtaveSamples.Add(InputSignal.Samples[i + 1] - (2 * InputSignal.Samples[i]) + InputSignal.Samples[i - 1]);
+                
             }
 
             FirstDerivative = new Signal(firstDerivtaveSamples, false);
