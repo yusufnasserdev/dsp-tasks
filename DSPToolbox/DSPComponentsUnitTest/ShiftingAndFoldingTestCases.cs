@@ -38,7 +38,7 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Shift_Plus500.ds");
             s.Run();
             actualOutputSignal = s.OutputShiftedSignal;
-
+ 
         }
 
         [TestMethod]
@@ -49,9 +49,9 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Shift_Minus500.ds");
             s.Run();
             actualOutputSignal = s.OutputShiftedSignal;
-
+         
         }
-
+       
         [TestMethod]
         public void FoldingTestMethod3()
         {
@@ -68,7 +68,6 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
-            s.Folded = true;
             s.InputSignal = f.OutputFoldedSignal;
             s.Run();
             actualOutputSignal = s.OutputShiftedSignal;
@@ -81,7 +80,6 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
             f.InputSignal = inputSignal;
             f.Run();
-            s.Folded = true;
             s.InputSignal = f.OutputFoldedSignal;
             s.Run();
             actualOutputSignal = s.OutputShiftedSignal;
@@ -95,30 +93,10 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Minus500.ds");
             s.InputSignal = inputSignal;
             s.Run();
-            f.Shifted = true;
             f.InputSignal = s.OutputShiftedSignal;
             f.Run();
             actualOutputSignal = f.OutputFoldedSignal;
-
-            /*
-             * 
-             * INPUT:
-             *        -500 -499 .. ..  499   500
-             *          1    2  .. ..  1000  1001
-             *          
-             * SHIFT (X - 500):
-             *  
-             *          0    1   .. ..  999  1000  
-             *          1    2   .. ..  1000 1001
-             *          
-             * FOLD:
-             * 
-             *          0     1     .. ..  999  1000  
-             *         1001  1000   .. ..   2    1
-             *          
-             * The output signal corresponds to Output_Fold_Plus500 NOT Output_Fold_Minus500
-             */
-
+            
         }
 
         [TestMethod]
@@ -129,13 +107,12 @@ namespace DSPComponentsUnitTest
             expectedOutputSignal = UnitTestUtitlities.LoadSignal("TestingSignals/Output_Fold_Plus500.ds");
             s.InputSignal = inputSignal;
             s.Run();
-            f.Shifted = true;
             f.InputSignal = s.OutputShiftedSignal;
             f.Run();
             actualOutputSignal = f.OutputFoldedSignal;
-
+           
         }
-
+        
         [TestMethod]
         public void FoldingShiftRightFoldingShiftLeftTestMethod8()
         {
@@ -163,7 +140,7 @@ namespace DSPComponentsUnitTest
             // -5, -4, -3, -2
 
             actualOutputSignal = s2.OutputShiftedSignal;
-            expectedOutputSignal = new Signal(new List<float>() { 1, 2, 3, 8 }, new List<int>() { -5, -4, -3, -2 }, false);
+            expectedOutputSignal = new Signal(new List<float>(){1, 2, 3, 8}, new List<int>(){-5, -4, -3, -2}, false);
         }
     }
 }
