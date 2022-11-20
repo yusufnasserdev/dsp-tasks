@@ -32,7 +32,7 @@ namespace DSPAlgorithms.Algorithms
                 }
             }
 
-            int startIndex = Math.Min(InputSignal1.SamplesIndices[0], InputSignal2.SamplesIndices[0]);
+            int startIndex = InputSignal1.SamplesIndices[0] + InputSignal2.SamplesIndices[0];
             List<int> newIndices= new List<int>();
 
             for (int i = 0; i < newSamplesCount; i++)

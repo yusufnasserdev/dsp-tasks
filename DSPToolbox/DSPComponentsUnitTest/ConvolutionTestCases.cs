@@ -81,12 +81,13 @@ namespace DSPComponentsUnitTest
             DirectConvolution dc = new DirectConvolution();
             // test case 4 ..
             var expectedOutput = new Signal(new List<float>() {-3, 2, 2, 3, 2 }, new List<int>() { -3, -2, -1, 0, 1  }, false);
+            // var expectedOutput = new Signal(new List<float>() {-3, 2, 2, 3, 2, 0 }, new List<int>() { -3, -2, -1, 0, 1, 2 }, false);
 
             /**
              * NOTE: 
              * 
-             * expectedOutput is believed to be faulty as it expects the min index
-             * to be -3 while it being -2 and -1 in the input signals.
+             * expectedOutput is believed to be faulty as it expects 5 samples while the
+             * inputed signals are of length 4, 3 which results in 6 samples output.
              */
 
             dc.InputSignal1 = new Signal(new List<float>() { 3, 1, 2, 0 }, new List<int>() { -2, -1, 0, 1 }, false);
