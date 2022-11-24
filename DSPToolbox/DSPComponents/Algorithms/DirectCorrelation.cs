@@ -55,9 +55,14 @@ namespace DSPAlgorithms.Algorithms
             else
             {
 
-                int new_len = InputSignal1.Samples.Count + InputSignal2.Samples.Count - 1;
-                for (int i = InputSignal1.Samples.Count; i < new_len; i++) InputSignal1.Samples.Add(0);
-                for (int i = InputSignal2.Samples.Count; i < new_len; i++) InputSignal2.Samples.Add(0);
+                int new_len = InputSignal1.Samples.Count;
+
+                if (InputSignal1.Samples.Count != InputSignal2.Samples.Count)
+                {
+                    new_len = InputSignal1.Samples.Count + InputSignal2.Samples.Count - 1;
+                    for (int i = InputSignal1.Samples.Count; i < new_len; i++) InputSignal1.Samples.Add(0);
+                    for (int i = InputSignal2.Samples.Count; i < new_len; i++) InputSignal2.Samples.Add(0);
+                }
 
                 float sum1 = 0, sum2 = 0;
                 for (int i = 0; i < new_len; i++)

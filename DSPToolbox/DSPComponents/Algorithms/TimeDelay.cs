@@ -24,15 +24,17 @@ namespace DSPAlgorithms.Algorithms
 
             float maxAbslouteVal = dc.OutputNonNormalizedCorrelation.Max();
             int lagj = 0;
+
             for (int i = 0; i < dc.OutputNonNormalizedCorrelation.Count; i++)
+            {
                 if (dc.OutputNonNormalizedCorrelation[i] == maxAbslouteVal)
                 {
                     lagj = i;
                     break;
                 }
+            }
 
             OutputTimeDelay = lagj * InputSamplingPeriod;
-
         }
     }
 }
