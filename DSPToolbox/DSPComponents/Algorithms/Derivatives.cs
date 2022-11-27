@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DSPAlgorithms.Algorithms
 {
-    public class Derivatives: Algorithm
+    public class Derivatives : Algorithm
     {
         public Signal InputSignal { get; set; }
         public Signal FirstDerivative { get; set; }
@@ -24,9 +24,9 @@ namespace DSPAlgorithms.Algorithms
                 firstDerivtaveSamples.Add(InputSignal.Samples[i] - InputSignal.Samples[i - 1]);
 
                 if (i + 1 == InputSignal.Samples.Count) continue;
-                
+
                 secondDerivtaveSamples.Add(InputSignal.Samples[i + 1] - (2 * InputSignal.Samples[i]) + InputSignal.Samples[i - 1]);
-                
+
             }
 
             FirstDerivative = new Signal(firstDerivtaveSamples, false);

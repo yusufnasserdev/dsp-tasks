@@ -28,15 +28,15 @@ namespace DSPAlgorithms.Algorithms
 
                 for (int j = 0; j < InputTimeDomainSignal.Samples.Count; j++)
                 {
-                    ePower = (2 * (float) Math.PI * i * j) / InputTimeDomainSignal.Samples.Count;
-                    realPart += InputTimeDomainSignal.Samples[j] * (float) Math.Cos(ePower);
-                    imaginaryPart += -InputTimeDomainSignal.Samples[j] * (float) Math.Sin(ePower);
+                    ePower = (2 * (float)Math.PI * i * j) / InputTimeDomainSignal.Samples.Count;
+                    realPart += InputTimeDomainSignal.Samples[j] * (float)Math.Cos(ePower);
+                    imaginaryPart += -InputTimeDomainSignal.Samples[j] * (float)Math.Sin(ePower);
                 }
 
                 double amplitude = Math.Sqrt(Math.Pow(realPart, 2) + Math.Pow(imaginaryPart, 2));
-                amplitudes.Add( (float) amplitude);
+                amplitudes.Add((float)amplitude);
                 double phaseShift = Math.Atan2(imaginaryPart, realPart);
-                phaseShifts.Add((float) phaseShift);
+                phaseShifts.Add((float)phaseShift);
             }
 
             OutputFreqDomainSignal = new Signal(InputTimeDomainSignal.Samples, false);

@@ -29,9 +29,9 @@ namespace DSPAlgorithms.Algorithms
             OutputSamplesError = new List<float>();
 
             if (InputLevel > 0)
-                InputNumBits = (int) Math.Log(InputLevel, 2);
+                InputNumBits = (int)Math.Log(InputLevel, 2);
             else if (InputNumBits > 0)
-                InputLevel = (int) Math.Pow(2, InputNumBits);
+                InputLevel = (int)Math.Pow(2, InputNumBits);
 
 
             float maxA = InputSignal.Samples.Max(),
@@ -39,7 +39,7 @@ namespace DSPAlgorithms.Algorithms
 
             float delta = (maxA - minA) / InputLevel;
 
-            for (float i = minA; i < maxA; i+= delta)
+            for (float i = minA; i < maxA; i += delta)
             {
                 intervals.Add(new Tuple<float, float>(i, i + delta));
             }
@@ -50,7 +50,7 @@ namespace DSPAlgorithms.Algorithms
                 {
                     if (sample >= intervals[i].Item1 && sample <= intervals[i].Item2 + 0.001)
                     {
-                        float midPoint = (intervals[i].Item1 + intervals[i].Item2) / (float) 2.0;
+                        float midPoint = (intervals[i].Item1 + intervals[i].Item2) / (float)2.0;
                         quantizedSamples.Add(midPoint);
 
                         OutputIntervalIndices.Add(i + 1);
@@ -59,7 +59,7 @@ namespace DSPAlgorithms.Algorithms
                         int length = Convert.ToString(i, 2).Length;
                         string zeros = "";
 
-                        while (length < (int) Math.Log(InputLevel, 2))
+                        while (length < (int)Math.Log(InputLevel, 2))
                         {
                             zeros += "0";
                             length++;
@@ -67,7 +67,7 @@ namespace DSPAlgorithms.Algorithms
 
                         OutputEncodedSignal.Add(zeros + Convert.ToString(i, 2));
                         break;
-                    } 
+                    }
                 }
             }
 

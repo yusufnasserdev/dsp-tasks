@@ -8,7 +8,7 @@ using DSPAlgorithms.DataStructures;
 
 namespace DSPAlgorithms.Algorithms
 {
-    public class SinCos: Algorithm
+    public class SinCos : Algorithm
     {
         public string type { get; set; }
         public float A { get; set; }
@@ -21,11 +21,12 @@ namespace DSPAlgorithms.Algorithms
             samples = new List<float>();
             float digitalFrequency = AnalogFrequency / SamplingFrequency;
 
-            if (type.Equals("sin")) {
+            if (type.Equals("sin"))
+            {
                 for (int i = 0; i < SamplingFrequency; i++)
                 {
                     double result = A * Math.Sin(2 * Math.PI * digitalFrequency * i + PhaseShift);
-                    samples.Add((float) result);
+                    samples.Add((float)result);
                 }
             }
             else if (type.Equals("cos"))
@@ -33,7 +34,7 @@ namespace DSPAlgorithms.Algorithms
                 for (int i = 0; i < SamplingFrequency; i++)
                 {
                     double result = A * Math.Cos(2 * Math.PI * digitalFrequency * i + PhaseShift);
-                    samples.Add((float) result);
+                    samples.Add((float)result);
 
                 }
             }

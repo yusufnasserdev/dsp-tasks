@@ -13,7 +13,7 @@ namespace DSPAlgorithms.Algorithms
         public Signal InputSignal { get; set; }
         public int InputWindowSize { get; set; }
         public Signal OutputAverageSignal { get; set; }
- 
+
         public override void Run()
         {
             List<float> outputSamples = new List<float>();
@@ -26,7 +26,7 @@ namespace DSPAlgorithms.Algorithms
                 float windowSum = 0;
 
                 for (int j = 0; j < InputWindowSize; j++)
-                        windowSum += InputSignal.Samples[i + j];
+                    windowSum += InputSignal.Samples[i + j];
 
                 outputSamples.Add(windowSum / InputWindowSize);
             }

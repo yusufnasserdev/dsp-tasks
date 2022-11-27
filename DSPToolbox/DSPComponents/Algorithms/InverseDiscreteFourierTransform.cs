@@ -47,7 +47,7 @@ namespace DSPAlgorithms.Algorithms
 
             for (int i = 0; i < InputFreqDomainSignal.FrequenciesAmplitudes.Count; i++)
             {
-                realPart.Add( (float) values[i].Real);
+                realPart.Add((float)values[i].Real);
             }
 
             OutputTimeDomainSignal = new Signal(realPart, false);

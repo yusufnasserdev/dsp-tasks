@@ -20,7 +20,7 @@ namespace DSPAlgorithms.Algorithms
         {
             int newSamplesCount = InputSignal1.Samples.Count() + InputSignal2.Samples.Count() - 1;
 
-           float[] outputSums = new float[newSamplesCount];
+            float[] outputSums = new float[newSamplesCount];
 
             for (int i = 0; i < InputSignal1.Samples.Count(); i++)
             {
@@ -33,7 +33,7 @@ namespace DSPAlgorithms.Algorithms
             }
 
             int startIndex = InputSignal1.SamplesIndices[0] + InputSignal2.SamplesIndices[0];
-            List<int> newIndices= new List<int>();
+            List<int> newIndices = new List<int>();
 
             for (int i = 0; i < newSamplesCount; i++)
                 newIndices.Add(startIndex + i);

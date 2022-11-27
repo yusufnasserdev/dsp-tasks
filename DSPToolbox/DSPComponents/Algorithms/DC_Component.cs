@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DSPAlgorithms.Algorithms
 {
-    public class DC_Component: Algorithm
+    public class DC_Component : Algorithm
     {
         public Signal InputSignal { get; set; }
         public Signal OutputSignal { get; set; }

@@ -28,7 +28,7 @@ namespace DSPAlgorithms.Algorithms
                     sum += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
 
                 // Since multiplying the same sum and then taking the square root is redundant, we'll divide it directly.
-                double normalization_sum =(sum / InputSignal1.Samples.Count);
+                double normalization_sum = sum / InputSignal1.Samples.Count;
                 
                 List<float> corr_output = new List<float>();
                 List<float> samples_duplicate = InputSignal1.Samples.ToList();

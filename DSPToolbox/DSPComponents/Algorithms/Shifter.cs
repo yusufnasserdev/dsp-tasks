@@ -16,7 +16,7 @@ namespace DSPAlgorithms.Algorithms
 
         public override void Run()
         {
-            
+
             if (Folded) ShiftingValue *= -1;
 
             List<int> outputSamplesIndices = new List<int>();

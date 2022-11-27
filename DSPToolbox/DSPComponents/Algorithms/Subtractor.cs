@@ -28,9 +28,11 @@ namespace DSPAlgorithms.Algorithms
             InputSignal2 = m.OutputMultipliedSignal;
 
             Adder a = new Adder();
-            a.InputSignals = new List<Signal>();
-            a.InputSignals.Add(InputSignal1);
-            a.InputSignals.Add(InputSignal2);
+            a.InputSignals = new List<Signal>
+            {
+                InputSignal1,
+                InputSignal2
+            };
 
             a.Run();
 
