@@ -18,24 +18,30 @@ namespace DSPAlgorithms.Algorithms
         public override void Run()
         {
             int new_len = InputSignal1.Samples.Count;
+            double normalization_sum = 0;
+         
 
-            if (InputSignal1 == null)
+            if (InputSignal2 == null)
             {
-                InputSignal2 = InputSignal1;
+                InputSignal2 = new Signal(InputSignal1.Samples.ToList(), false);
+
+                double sum = 0;
+                for (int i = 0; i < InputSignal1.Samples.Count; i++)
+                    sum += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
+
+                normalization_sum = sum / new_len;
+
             }
             else
             {
-                new_len = InputSignal1.Samples.Count + InputSignal2.Samples.Count - 1;
-
+                float sum1 = 0, sum2 = 0;
                 for (int i = 0; i < new_len; i++)
                 {
-                    if (i == InputSignal1.Samples.Count)
-                        InputSignal1.Samples.Add(0);
-
-                    if (i == InputSignal2.Samples.Count)
-                        InputSignal2.Samples.Add(0);
+                    sum1 += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
+                    sum2 += (InputSignal2.Samples[i] * InputSignal2.Samples[i]);
                 }
 
+                normalization_sum = (float)Math.Sqrt(sum1 * sum2) / new_len;
             }
 
             DiscreteFourierTransform dft1 = new DiscreteFourierTransform();
@@ -49,10 +55,10 @@ namespace DSPAlgorithms.Algorithms
 
             List<Complex> NewHarmonics = new List<Complex>();
 
-            for (int i = 0; i < dft2.ImaginaryParts.Count; i++)
+            for (int i = 0; i < dft1.ImaginaryParts.Count; i++)
             {
-                double img = dft2.Harmonics[i].Imaginary * -1;
-                dft2.Harmonics[i] = new Complex(dft2.Harmonics[i]., img);
+                double img = dft1.Harmonics[i].Imaginary * -1;
+                dft1.Harmonics[i] = new Complex(dft1.Harmonics[i].Real, img);
             }
 
 
@@ -79,18 +85,17 @@ namespace DSPAlgorithms.Algorithms
 
             idft.Run();
 
-            int startIndex = InputSignal1.SamplesIndices[0] + InputSignal2.SamplesIndices[0];
-            List<int> newIndices = new List<int>();
-
-            for (int i = 0; i < InputSignal1.Samples.Count; i++)
-                newIndices.Add(startIndex + i);
-
             for (int i = 0; i < idft.OutputTimeDomainSignal.Samples.Count; i++)
             {
-                idft.OutputTimeDomainSignal.Samples[i] = (float)Math.Round(idft.OutputTimeDomainSignal.Samples[i], 1, MidpointRounding.AwayFromZero);
+                idft.OutputTimeDomainSignal.Samples[i] = idft.OutputTimeDomainSignal.Samples[i]/ new_len;
             }
-            
-            OutputNormalizedCorrelation = new Signal(idft.OutputTimeDomainSignal.Samples, newIndices, false);
+
+            OutputNonNormalizedCorrelation = idft.OutputTimeDomainSignal.Samples;
+
+            OutputNormalizedCorrelation = new List<float>();
+
+            for (int i = 0; i < OutputNonNormalizedCorrelation.Count; i++)
+                OutputNormalizedCorrelation.Add((float)(idft.OutputTimeDomainSignal.Samples[i] / normalization_sum));
         }
     }
 }
