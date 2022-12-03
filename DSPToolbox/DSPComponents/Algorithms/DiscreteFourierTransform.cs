@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using DSPAlgorithms.DataStructures;
@@ -13,11 +14,17 @@ namespace DSPAlgorithms.Algorithms
         public Signal InputTimeDomainSignal { get; set; }
         public float InputSamplingFrequency { get; set; }
         public Signal OutputFreqDomainSignal { get; set; }
+        public List<float> RealParts { get; set; }
+        public List<float> ImaginaryParts { get; set; }
 
+        public List<Complex> Harmonics { get; set; }
         public override void Run()
         {
             List<float> amplitudes = new List<float>();
             List<float> phaseShifts = new List<float>();
+            
+            RealParts = new List<float>();
+            ImaginaryParts = new List<float>();
 
             float ePower, realPart, imaginaryPart;
 
@@ -33,10 +40,21 @@ namespace DSPAlgorithms.Algorithms
                     imaginaryPart += -InputTimeDomainSignal.Samples[j] * (float)Math.Sin(ePower);
                 }
 
+                RealParts.Add(realPart);
+                ImaginaryParts.Add(imaginaryPart);
+
                 double amplitude = Math.Sqrt(Math.Pow(realPart, 2) + Math.Pow(imaginaryPart, 2));
                 amplitudes.Add((float)amplitude);
                 double phaseShift = Math.Atan2(imaginaryPart, realPart);
                 phaseShifts.Add((float)phaseShift);
+            }
+
+            Harmonics = new List<Complex>();
+
+            for (int i = 0; i < RealParts.Count; i++)
+            {
+                Complex c = new Complex(RealParts[i], ImaginaryParts[i]);
+                Harmonics.Add(c);
             }
 
             OutputFreqDomainSignal = new Signal(InputTimeDomainSignal.Samples, false);

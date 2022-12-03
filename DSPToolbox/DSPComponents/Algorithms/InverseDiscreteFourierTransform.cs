@@ -18,11 +18,11 @@ namespace DSPAlgorithms.Algorithms
             List<Complex> values = new List<Complex>();
             List<Complex> complexNums = new List<Complex>();
 
-            for (int i = 0; i < InputFreqDomainSignal.FrequenciesAmplitudes.Count; i++)
-            {
+                for (int i = 0; i < InputFreqDomainSignal.FrequenciesAmplitudes.Count; i++)
+                {
                 complexNums.Add(Complex.FromPolarCoordinates(InputFreqDomainSignal.FrequenciesAmplitudes[i],
-                    InputFreqDomainSignal.FrequenciesPhaseShifts[i]));
-            }
+                        InputFreqDomainSignal.FrequenciesPhaseShifts[i]));
+                }
 
             double termAnswer = 0;
 
