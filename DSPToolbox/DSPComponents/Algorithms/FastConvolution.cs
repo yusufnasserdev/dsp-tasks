@@ -31,12 +31,11 @@ namespace DSPAlgorithms.Algorithms
             }
 
             DiscreteFourierTransform dft1 = new DiscreteFourierTransform();
-            DiscreteFourierTransform dft2 = new DiscreteFourierTransform();
-
             dft1.InputTimeDomainSignal = InputSignal1;
-            dft2.InputTimeDomainSignal = InputSignal2;
-
             dft1.Run();
+
+            DiscreteFourierTransform dft2 = new DiscreteFourierTransform();
+            dft2.InputTimeDomainSignal = InputSignal2;
             dft2.Run();
 
             List<Complex> NewHarmonics = new List<Complex>();

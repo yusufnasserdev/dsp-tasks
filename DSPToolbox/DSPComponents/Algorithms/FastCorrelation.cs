@@ -18,8 +18,7 @@ namespace DSPAlgorithms.Algorithms
         public override void Run()
         {
             int new_len = InputSignal1.Samples.Count;
-            double normalization_sum = 0;
-         
+            double normalization_sum;
 
             if (InputSignal2 == null)
             {
@@ -30,7 +29,6 @@ namespace DSPAlgorithms.Algorithms
                     sum += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
 
                 normalization_sum = sum / new_len;
-
             }
             else
             {
@@ -41,7 +39,7 @@ namespace DSPAlgorithms.Algorithms
                     sum2 += (InputSignal2.Samples[i] * InputSignal2.Samples[i]);
                 }
 
-                normalization_sum = (float)Math.Sqrt(sum1 * sum2) / new_len;
+                normalization_sum = (float) Math.Sqrt(sum1 * sum2) / new_len;
             }
 
             DiscreteFourierTransform dft1 = new DiscreteFourierTransform();
@@ -87,7 +85,7 @@ namespace DSPAlgorithms.Algorithms
 
             for (int i = 0; i < idft.OutputTimeDomainSignal.Samples.Count; i++)
             {
-                idft.OutputTimeDomainSignal.Samples[i] = idft.OutputTimeDomainSignal.Samples[i]/ new_len;
+                idft.OutputTimeDomainSignal.Samples[i] = idft.OutputTimeDomainSignal.Samples[i] / new_len;
             }
 
             OutputNonNormalizedCorrelation = idft.OutputTimeDomainSignal.Samples;
