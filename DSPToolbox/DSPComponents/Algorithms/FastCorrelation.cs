@@ -18,29 +18,33 @@ namespace DSPAlgorithms.Algorithms
         public override void Run()
         {
             int new_len = InputSignal1.Samples.Count;
-            double normalization_sum;
+            double normalization_sum = 0;
+
+            // Calculating the normalization sum and filling InputSignal2 if null
 
             if (InputSignal2 == null)
             {
                 InputSignal2 = new Signal(InputSignal1.Samples.ToList(), false);
 
-                double sum = 0;
                 for (int i = 0; i < InputSignal1.Samples.Count; i++)
-                    sum += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
+                    normalization_sum += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
 
-                normalization_sum = sum / new_len;
+                normalization_sum = (float)normalization_sum / new_len;
             }
             else
             {
                 float sum1 = 0, sum2 = 0;
+
                 for (int i = 0; i < new_len; i++)
                 {
                     sum1 += (InputSignal1.Samples[i] * InputSignal1.Samples[i]);
                     sum2 += (InputSignal2.Samples[i] * InputSignal2.Samples[i]);
                 }
 
-                normalization_sum = (float) Math.Sqrt(sum1 * sum2) / new_len;
+                normalization_sum = (float)Math.Sqrt(sum1 * sum2) / new_len;
             }
+
+            // Performing DFT on both signals
 
             DiscreteFourierTransform dft1 = new DiscreteFourierTransform();
             dft1.InputTimeDomainSignal = InputSignal1;
@@ -50,38 +54,45 @@ namespace DSPAlgorithms.Algorithms
             dft2.InputTimeDomainSignal = InputSignal2;
             dft2.Run();
 
+            // Replacing the 1st signal harmonics with their conjugate
 
-            List<Complex> NewHarmonics = new List<Complex>();
-
-            for (int i = 0; i < dft1.ImaginaryParts.Count; i++)
+            for (int i = 0; i < dft1.Harmonics.Count; i++)
             {
                 double img = dft1.Harmonics[i].Imaginary * -1;
                 dft1.Harmonics[i] = new Complex(dft1.Harmonics[i].Real, img);
             }
 
 
-            for (int i = 0; i < dft1.RealParts.Count; i++)
+            // Calculating Correlation between signals' harmonics 
+
+            List<Complex> NewHarmonics = new List<Complex>();
+
+            for (int i = 0; i < dft1.Harmonics.Count; i++)
                 NewHarmonics.Add(dft1.Harmonics[i] * dft2.Harmonics[i]);
+
+            // Computing amplitudes and phaseshifts for the new harmonics
 
             List<float> Amps = new List<float>();
             List<float> PS = new List<float>();
 
             for (int i = 0; i < NewHarmonics.Count; i++)
             {
-                double amplitude = Math.Sqrt(Math.Pow(NewHarmonics[i].Real, 2) + Math.Pow(NewHarmonics[i].Imaginary, 2));
-                Amps.Add((float)amplitude);
-                double phaseShift = Math.Atan2(NewHarmonics[i].Imaginary, NewHarmonics[i].Real);
-                PS.Add((float)phaseShift);
+                Amps.Add((float)Math.Sqrt(Math.Pow(NewHarmonics[i].Real, 2) + Math.Pow(NewHarmonics[i].Imaginary, 2)));
+                PS.Add((float)Math.Atan2(NewHarmonics[i].Imaginary, NewHarmonics[i].Real));
             }
+
+            // Returning the signal to time domain by running idft
 
             Signal inter_signal = new Signal(new List<float>(), false);
             inter_signal.FrequenciesPhaseShifts = PS;
             inter_signal.FrequenciesAmplitudes = Amps;
 
+
             InverseDiscreteFourierTransform idft = new InverseDiscreteFourierTransform();
             idft.InputFreqDomainSignal = inter_signal;
 
             idft.Run();
+
 
             for (int i = 0; i < idft.OutputTimeDomainSignal.Samples.Count; i++)
             {
@@ -89,7 +100,6 @@ namespace DSPAlgorithms.Algorithms
             }
 
             OutputNonNormalizedCorrelation = idft.OutputTimeDomainSignal.Samples;
-
             OutputNormalizedCorrelation = new List<float>();
 
             for (int i = 0; i < OutputNonNormalizedCorrelation.Count; i++)

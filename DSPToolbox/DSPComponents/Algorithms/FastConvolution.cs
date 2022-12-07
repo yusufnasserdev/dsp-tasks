@@ -40,7 +40,7 @@ namespace DSPAlgorithms.Algorithms
 
             List<Complex> NewHarmonics = new List<Complex>();
 
-            for (int i = 0; i < dft1.RealParts.Count; i++)
+            for (int i = 0; i < dft1.Harmonics.Count; i++)
                 NewHarmonics.Add(dft1.Harmonics[i] * dft2.Harmonics[i]);
 
             List<float> Amps = new List<float>();
