@@ -27,8 +27,17 @@ namespace DSPAlgorithms.Algorithms
         public Signal OutputHn { get; set; }
         public Signal OutputYn { get; set; }
         private int N { get; set; }
-        private int LeftMostIndex { get; set; }
+        private int HalfWay { get; set; }
         private List<float> WindowFunction { get; set; }
+
+        private void FilterSignal()
+        {
+            DirectConvolution dc = new DirectConvolution();
+            dc.InputSignal1 = InputTimeDomainSignal;
+            dc.InputSignal2 = OutputHn;
+            dc.Run();
+            OutputYn = dc.OutputConvolvedSignal;
+        }
 
         private void FilterLow()
         {
@@ -36,43 +45,45 @@ namespace DSPAlgorithms.Algorithms
             InputCutOffFrequency /= InputFS;
             InputCutOffFrequency += (InputTransitionBand / 2);
 
-            List<float> HDn = new List<float>();
+            List<float> HDn = new List<float>
+            {
+                (float)(2 * InputCutOffFrequency)
+            };
 
-            // HD(n)
             float Wc = (float)(2 * Math.PI * InputCutOffFrequency);
 
-            for (int i = N / 2; i > 0; i--)
-                HDn.Add((float)(2 * InputCutOffFrequency * Math.Sin(i * Wc) / (i * Wc)));
-
-            // HD(0)
-            HDn.Add((float)(2 * InputCutOffFrequency));
+            for (int i = 1; i < HalfWay; i++)
+                HDn.Add((float)(2 * InputCutOffFrequency * (Math.Sin(i * Wc) / (i * Wc))));
             
             // Generating samples
             List<float> NewSamples = new List<float>();
-            List<float> LeftSideSamples = new List<float>();
-            for (int i = 0; i <= N / 2; i++)
-                LeftSideSamples.Add(HDn[i] * WindowFunction[i]);
+            List<float> RightSideSamples = new List<float>();
 
-            // Adding the left side samples
-            NewSamples.AddRange(LeftSideSamples);
+            for (int i = 1; i < HalfWay; i++)
+                RightSideSamples.Add(HDn[i] * WindowFunction[i]);
 
-            // Removing the middle sample so it won't be added twice
-            LeftSideSamples.RemoveAt(N / 2);
+            // Adding the right side samples then reversing them to represent the left side samples
+            NewSamples.AddRange(RightSideSamples);
+            NewSamples.Reverse();
 
-            // Reversomg the left side samples so they would be added as the right ones.
-            LeftSideSamples.Reverse();
+            // Adding the middle sample 
+            NewSamples.Add(HDn[0] * WindowFunction[0]);
 
             // Adding the right side samples
-            NewSamples.AddRange(LeftSideSamples);
+            NewSamples.AddRange(RightSideSamples);
 
             // Generating samples indices
             List<int> NewIndices = new List<int>();
-            int firstIndex = LeftMostIndex;
-            for (; firstIndex <= N / 2; firstIndex++)
+            int firstIndex = (-1 * HalfWay) + 1;
+            for (; firstIndex < HalfWay; firstIndex++)
                 NewIndices.Add(firstIndex);
 
             // Initializing the filtered signal
             OutputHn = new Signal(NewSamples, NewIndices, false);
+
+            // Return filtered signal if inputed
+            if (InputTimeDomainSignal!= null)
+                FilterSignal();
         }
 
         private void FilterHigh()
@@ -127,17 +138,17 @@ namespace DSPAlgorithms.Algorithms
 
 
             WindowFunction = new List<float>();
-            LeftMostIndex = N / -2;
+            HalfWay = N / 2; HalfWay++;
             double nm = 0, nm1 = 0, nm2 = 0, dn = 0;
 
             if (WindowType == WINDOW_TYPE.RECTANGULAR)
             {
-                for (int i = LeftMostIndex; i < 1; i++)
+                for (int i = 0; i < HalfWay; i++)
                     WindowFunction.Add(1);
             }
             else if (WindowType == WINDOW_TYPE.HANNING)
             {
-                for (int i = LeftMostIndex; i < 1; i++)
+                for (int i = 0; i < HalfWay; i++)
                 {
                     nm = (2 * Math.PI * i);
                     WindowFunction.Add((float)(0.5 + (0.5 * Math.Cos(nm / N))));
@@ -146,7 +157,7 @@ namespace DSPAlgorithms.Algorithms
             }
             else if (WindowType == WINDOW_TYPE.HAMMING)
             {
-                for (int i = LeftMostIndex; i < 1; i++)
+                for (int i = 0; i < HalfWay; i++)
                 {
                     nm = (2 * Math.PI * i);
                     WindowFunction.Add((float)(0.54 + (0.46 * Math.Cos(nm / N))));
@@ -154,7 +165,7 @@ namespace DSPAlgorithms.Algorithms
             }
             else
             {
-                for (int i = LeftMostIndex; i < 1; i++)
+                for (int i = 0; i < HalfWay; i++)
                 {
                     nm1 = (2 * Math.PI * i);
                     nm2 = (4 * Math.PI * i);
