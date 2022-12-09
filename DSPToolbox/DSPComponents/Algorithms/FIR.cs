@@ -88,17 +88,157 @@ namespace DSPAlgorithms.Algorithms
 
         private void FilterHigh()
         {
+            // Normalizing InputCutOffFrequency
+            InputCutOffFrequency /= InputFS;
+            InputCutOffFrequency += (InputTransitionBand / 2);
 
+            List<float> HDn = new List<float>
+            {
+                (float)(1 - (2 * InputCutOffFrequency))
+            };
+
+            float Wc = (float)(2 * Math.PI * InputCutOffFrequency);
+
+            for (int i = 1; i < HalfWay; i++)
+                HDn.Add((float)(-2 * InputCutOffFrequency * (Math.Sin(i * Wc) / (i * Wc))));
+
+            // Generating samples
+            List<float> NewSamples = new List<float>();
+            List<float> RightSideSamples = new List<float>();
+
+            for (int i = 1; i < HalfWay; i++)
+                RightSideSamples.Add(HDn[i] * WindowFunction[i]);
+
+            // Adding the right side samples then reversing them to represent the left side samples
+            NewSamples.AddRange(RightSideSamples);
+            NewSamples.Reverse();
+
+            // Adding the middle sample 
+            NewSamples.Add(HDn[0] * WindowFunction[0]);
+
+            // Adding the right side samples
+            NewSamples.AddRange(RightSideSamples);
+
+            // Generating samples indices
+            List<int> NewIndices = new List<int>();
+            int firstIndex = (-1 * HalfWay) + 1;
+            for (; firstIndex < HalfWay; firstIndex++)
+                NewIndices.Add(firstIndex);
+
+            // Initializing the filtered signal
+            OutputHn = new Signal(NewSamples, NewIndices, false);
+
+            // Return filtered signal if inputed
+            if (InputTimeDomainSignal != null)
+                FilterSignal();
         }
 
         private void FilterBandPass()
         {
+            // Normalizing InputCutOffFrequency 1 and 2 
+            InputF1 /= InputFS;
+            InputF1 -= (InputTransitionBand / 2);
+            InputF2 /= InputFS;
+            InputF2 += (InputTransitionBand / 2);
 
+            List<float> HDn = new List<float>
+            {
+                (float)(2 * (InputF2 - InputF1))
+            };
+
+            float Wc1 = (float)(2 * Math.PI * InputF1);
+            float Wc2 = (float)(2 * Math.PI * InputF2);
+
+            for (int i = 1; i < HalfWay; i++)
+            {
+                float FirstHalf = (float)(2 * InputF2 * (Math.Sin(i * Wc2) / (i * Wc2)));
+                float SecondHalf = (float)(-2 * InputF1 * (Math.Sin(i * Wc1) / (i * Wc1)));
+                HDn.Add(FirstHalf + SecondHalf);
+            }
+
+            // Generating samples
+            List<float> NewSamples = new List<float>();
+            List<float> RightSideSamples = new List<float>();
+
+            for (int i = 1; i < HalfWay; i++)
+                RightSideSamples.Add(HDn[i] * WindowFunction[i]);
+
+            // Adding the right side samples then reversing them to represent the left side samples
+            NewSamples.AddRange(RightSideSamples);
+            NewSamples.Reverse();
+
+            // Adding the middle sample 
+            NewSamples.Add(HDn[0] * WindowFunction[0]);
+
+            // Adding the right side samples
+            NewSamples.AddRange(RightSideSamples);
+
+            // Generating samples indices
+            List<int> NewIndices = new List<int>();
+            int firstIndex = (-1 * HalfWay) + 1;
+            for (; firstIndex < HalfWay; firstIndex++)
+                NewIndices.Add(firstIndex);
+
+            // Initializing the filtered signal
+            OutputHn = new Signal(NewSamples, NewIndices, false);
+
+            // Return filtered signal if inputed
+            if (InputTimeDomainSignal != null)
+                FilterSignal();
         }
 
         private void FilterBandReject()
         {
+            // Normalizing InputCutOffFrequency 1 and 2 
+            InputF1 /= InputFS;
+            InputF1 -= (InputTransitionBand / 2);
+            InputF2 /= InputFS;
+            InputF2 += (InputTransitionBand / 2);
 
+            List<float> HDn = new List<float>
+            {
+                (float)(1 - (2 * (InputF2 - InputF1)))
+            };
+
+            float Wc1 = (float)(2 * Math.PI * InputF1);
+            float Wc2 = (float)(2 * Math.PI * InputF2);
+
+            for (int i = 1; i < HalfWay; i++)
+            {
+                float FirstHalf = (float)(2 * InputF1 * (Math.Sin(i * Wc1) / (i * Wc1)));
+                float SecondHalf = (float)(-2 * InputF2 * (Math.Sin(i * Wc2) / (i * Wc2)));
+                HDn.Add(FirstHalf + SecondHalf);
+            }
+
+            // Generating samples
+            List<float> NewSamples = new List<float>();
+            List<float> RightSideSamples = new List<float>();
+
+            for (int i = 1; i < HalfWay; i++)
+                RightSideSamples.Add(HDn[i] * WindowFunction[i]);
+
+            // Adding the right side samples then reversing them to represent the left side samples
+            NewSamples.AddRange(RightSideSamples);
+            NewSamples.Reverse();
+
+            // Adding the middle sample 
+            NewSamples.Add(HDn[0] * WindowFunction[0]);
+
+            // Adding the right side samples
+            NewSamples.AddRange(RightSideSamples);
+
+            // Generating samples indices
+            List<int> NewIndices = new List<int>();
+            int firstIndex = (-1 * HalfWay) + 1;
+            for (; firstIndex < HalfWay; firstIndex++)
+                NewIndices.Add(firstIndex);
+
+            // Initializing the filtered signal
+            OutputHn = new Signal(NewSamples, NewIndices, false);
+
+            // Return filtered signal if inputed
+            if (InputTimeDomainSignal != null)
+                FilterSignal();
         }
 
         public override void Run()
@@ -107,7 +247,6 @@ namespace DSPAlgorithms.Algorithms
             InputTransitionBand /= InputFS;
 
             // Determining window function and initial samples count
-
             // Minimal case is assumed to be defualt
 
             WINDOW_TYPE WindowType = WINDOW_TYPE.RECTANGULAR;
