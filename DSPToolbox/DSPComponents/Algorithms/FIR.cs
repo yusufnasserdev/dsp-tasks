@@ -90,7 +90,7 @@ namespace DSPAlgorithms.Algorithms
         {
             // Normalizing InputCutOffFrequency
             InputCutOffFrequency /= InputFS;
-            InputCutOffFrequency += (InputTransitionBand / 2);
+            InputCutOffFrequency -= (InputTransitionBand / 2);
 
             List<float> HDn = new List<float>
             {
@@ -191,9 +191,9 @@ namespace DSPAlgorithms.Algorithms
         {
             // Normalizing InputCutOffFrequency 1 and 2 
             InputF1 /= InputFS;
-            InputF1 -= (InputTransitionBand / 2);
+            InputF1 += (InputTransitionBand / 2);
             InputF2 /= InputFS;
-            InputF2 += (InputTransitionBand / 2);
+            InputF2 -= (InputTransitionBand / 2);
 
             List<float> HDn = new List<float>
             {
