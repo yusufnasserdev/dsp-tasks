@@ -22,7 +22,7 @@ namespace DSPAlgorithms.Algorithms
             Harmonics = new List<Complex>();
             
 
-            float ePower, realPart, imaginaryPart;
+            double ePower, realPart, imaginaryPart;
 
             for (int i = 0; i < InputTimeDomainSignal.Samples.Count; i++)
             {
@@ -31,9 +31,9 @@ namespace DSPAlgorithms.Algorithms
 
                 for (int j = 0; j < InputTimeDomainSignal.Samples.Count; j++)
                 {
-                    ePower = (2 * (float)Math.PI * i * j) / InputTimeDomainSignal.Samples.Count;
-                    realPart += InputTimeDomainSignal.Samples[j] * (float)Math.Cos(ePower);
-                    imaginaryPart += -InputTimeDomainSignal.Samples[j] * (float)Math.Sin(ePower);
+                    ePower = (2 * Math.PI * i * j) / InputTimeDomainSignal.Samples.Count;
+                    realPart += InputTimeDomainSignal.Samples[j] * Math.Cos(ePower);
+                    imaginaryPart += -InputTimeDomainSignal.Samples[j] * Math.Sin(ePower);
                 }
 
                 double amplitude = Math.Sqrt(Math.Pow(realPart, 2) + Math.Pow(imaginaryPart, 2));
