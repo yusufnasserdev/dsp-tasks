@@ -201,6 +201,8 @@
     <None Include="TestingSignals\Output_Shift_Plus500.ds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestingSignals\Sampling_Down.ds" />
+    <None Include="TestingSignals\Sampling_Up.ds" />
     <None Include="TestingSignals\Signal1.ds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

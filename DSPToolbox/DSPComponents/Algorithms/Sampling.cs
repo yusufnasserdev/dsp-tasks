@@ -13,10 +13,6 @@ namespace DSPAlgorithms.Algorithms
         public int M { get; set; } //downsampling factor
         public Signal InputSignal { get; set; }
         public Signal OutputSignal { get; set; }
-
-
-
-
         public override void Run()
         {
             // if L != 0 and M = 0 this is a up Sampling
