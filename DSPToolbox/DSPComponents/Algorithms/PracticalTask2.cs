@@ -44,10 +44,12 @@ namespace DSPAlgorithms.Algorithms
             Signal resampledSignal;
             if (NotAliasingFrequency(newFs, maxF))
             {
-                Sampling sampling = new Sampling();
-                sampling.L = L;
-                sampling.M = M;
-                sampling.InputSignal= filterdSignal;
+                Sampling sampling = new Sampling
+                {
+                    L = L,
+                    M = M,
+                    InputSignal = filterdSignal
+                };
                 sampling.Run();
                 resampledSignal = sampling.OutputSignal;
                 SaveSignal("\\SignalResampled.ds", resampledSignal, false, false);
@@ -59,8 +61,10 @@ namespace DSPAlgorithms.Algorithms
             }
 
             // Removing DC component
-            DC_Component dc = new DC_Component();
-            dc.InputSignal = resampledSignal;
+            DC_Component dc = new DC_Component
+            {
+                InputSignal = resampledSignal
+            };
             dc.Run();
 
             Signal dcSignal = dc.OutputSignal;
