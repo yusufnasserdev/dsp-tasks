@@ -4,3 +4,6 @@ Digital Signal Processing course tasks.
 # Algorithms Implemented
 - Normalizer
 - Adder
+- Shifter
+- Folder
+- Accumulator
